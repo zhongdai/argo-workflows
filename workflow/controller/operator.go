@@ -193,6 +193,8 @@ func (woc *wfOperationCtx) operate() {
 		woc.preExecutionNodePhases[node.ID] = node.Phase
 	}
 
+	woc.setGlobalParameters(execArgs)
+
 	// Perform one-time workflow validation
 	if woc.wf.Status.Phase == "" {
 		woc.markWorkflowRunning()
@@ -265,8 +267,6 @@ func (woc *wfOperationCtx) operate() {
 		woc.markWorkflowError(err, true)
 		return
 	}
-
-	woc.setGlobalParameters(execArgs)
 
 	if woc.wfSpec.ArtifactRepositoryRef != nil {
 		repo, err := woc.getArtifactRepositoryByRef(woc.wfSpec.ArtifactRepositoryRef)
